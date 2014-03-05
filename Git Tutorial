@@ -1,0 +1,193 @@
+//Git Basics
+
+VCS //version control system
+git --version //checks what version of git you current have
+git init //If no parameters given, git will assume you want a repository made in the current folder your in
+git init my_first_repository //creates a new empty repository called my_first_repository
+touch my_file.txt //Creates an empty file called my_file.txt
+
+//Touch doesn't modify the contents of myfile.txt; it just updates the timestamp of the file to the computer's current date and time, whatever that happens to be. Or, if myfile.txt does not exist it is created, with zero length.
+
+rm -r my_project/.git //removes the repository from the folder my_project
+
+//Tip: The name of the repository doesnt really matter, you can change the name simply by renaming the folder. All the information thats essential is stored in the hidden .git folder. If you delete that .git folder then all your files and projects for that specific repository will be gone!-it's that easy!
+
+export EDITOR=nano //makes your default editor nano instead of something else by default like vim.
+
+//create an a directory and initialize git into it : git init damian_project. then cd damian_project. then create a readme: nano README
+
+git add README //adds the file to the repository. If you do not add it, git will not track it, which enables you to keep files you dont want shared hidden
+git commit //commits all added files to the repository as a change.
+
+//Also shows a commit message with info about your repository--You should type a short a meaningful message like: Added a read me file int it so distinguish it from other commits!
+
+git config --global //lets git know that whatever change we make should be done to all of our repositories, hence why its a global flag
+git config --global user.name "Damian Lajara" //Changes the default username to your actual current username
+git config --global user.email "damiansito93@gmail.com" //changes the default email with your actual current email address
+git commit -a //Tells git to commit all of the changes it can find to all tracked files
+//makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the git add part
+git commit -m //Allows you to specify a commit message directly on the command line instead of in your default editor.
+git commit -a -m "Added project statement to README file"
+git commit --amend --reset-author //After reconfiguring your name and email, do this to fix the identity of the current commit
+git status // show the current status of the git repository, including if there are ay uncommitted changes and whether or not any of our changes have been put in the staging area.
+git add //If used in the staging area, it will add the modified changes to the repository
+git commit //without any arguments (or the -a flag) it will default to committing everything that's currently in the staging area.
+
+//Logs
+
+git log //Show us a chronological log of all of our commits to the current repository.
+
+//Some useful flags to use with log:
+-p:					Show the patch introduced with each commit.
+--word-diff:		Show the patch in a word diff format.
+--stat:				Show statistics For files modified in each commit.
+--shortstat:		Display only the changed/insertions/deletions line from the --stat command.
+--name-only:		Show the list of files modified after the commit information.
+--name-status:		Show the list of files affected with added/modified/deleted information as well.
+--abbrev-commit:	Show only the first few characters of the SHA-1 checksum instead of all 40.
+--relative-date:	Display the date in a relative format (For example, “2 weeks ago”) instead of using the full date format.
+--graph:			Display an ASCII graph of the branch and merge history beside the log output.
+--pretty:			Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+--oneline: 			A convenience option short for --pretty=oneline --abbrev-commit.
+
+git log -p //shows the diff introduced in each commit
+git log -2 //limits the output to only the last two entries
+git log --stat //prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end
+git log --pretty //changes the log output to formats other than the default
+git log --pretty=oneline //prints each commit on a single line, which is useful if you’re looking at a lot of commits
+//Tip: log also has options that work with pretty like 'short', 'full' and 'fuller' which show the output in roughly the same format but with less or more information
+git log --pretty=format //Allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+git log --pretty=format:"%h %s" --graph // adds a nice little ASCII graph showing your branch and merge history
+git log --pretty=format:"%h - %an, %ar : %s"
+
+//Some format options:
+Option:	Description of Output
+%H:		Commit hash
+%h:		Abbreviated commit hash
+%T:		Tree hash
+%t:		Abbreviated tree hash
+%P:		Parent hashes
+%p:		Abbreviated parent hashes
+%an:	Author name
+%ae:	Author e-mail
+%ad:	Author date (format respects the --date= option)
+%ar:	Author date, relative
+%cn:	Committer name
+%ce:	Committer email
+%cd:	Committer date
+%cr:	Committer date, relative
+%s:		Subject
+
+//Note: (Author vs Committer) The author is the person who originally wrote the patch, whereas the committer is the person who last applied the patch. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer
+
+//Limiting logs
+
+ git log --since=2.weeks //gets the list of commits made in the last two weeks:
+ //Tip: This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+
+//Some options for limiting logs:
+ Option:			Description
+-(n):				Show only the last n commits
+--since, --after:	Limit the commits to those made after the specified date.
+--until, --before:	Limit the commits to those made before the specified date.
+--author:			Only show commits in which the author entry matches the specified string.
+--committer:		Only show commits in which the committer entry matches the specified string.
+
+git checkout //"check out" a different version of the code from the one you're currently looking at.--Uses the commit indentifier found in the logs
+
+//Tip: Since the commit identifier is so damn long, git knows which version is which by juts a few characters and numbers-no need to type it all out
+
+git checkout 7cbe3f //checks out the file, to how it was originaly before the modification
+git diff //create a "diff" view to demonstrate what has changed between two different versions of your repository.
+git diff 1221f 7adf76 //compares the two files based on their commit indetifier, and outputs what changes have been made or if theres any differences
+HEAD~1 //A special commit identifier in git which stands for the previous commit
+HEAD //A special commit identifier in git which stands for the current or most recent commit
+git checkout HEAD~1 //checks out the previous commit
+git checkout HEAD //checks out the most recent commit
+
+git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \ --before="2008-11-01" --no-merges -- t/
+//Shows which commits modifying test files in the Git source code history were committed by Junio Hamano in the month of October 2008 and were not merges
+
+//branching
+
+git branch branch_name //create a new branch called branch_name--starts as a copy of the current branch your in, so it will start off with the same commits
+
+//if I have two branches one called foo and one bar, and I commit change1 to foo and change2 to bar, if I create a branch inside foo, I will have commit change1 inside my new branch and if I make a branch from bar I will have commit change2 inside my new branch, since its a copy from the original branch
+
+git checkout branch_name //switch to the branch named branch_name.
+git checkout -b new_feature //creates a new branch called new_feature if it doesnt already exist, and it checks it out (-b stands for branch)
+git checkout -b branch_name //create a new branch named branch_name and switch to that branch.
+
+//Tip: to switch back to the master branch, just check it out: git checkout master
+
+git branch //list all branches in the current repository and indicate which branch you're currently in.
+//The branch with an asterisk(*) is the branch you are currently on
+git branch -D branchname //delete the branch named branchname from the repository.
+//You cannot delete a branch that you are currently in! Switch to another branch like master so you can delete its branch. For example, lets say im in bar branch, and i want to delete it. I cant because im currently in bar, so i will have to switch to master and delete bar from there
+
+git log also has a GUI to visualize the history which is called 'gitk'
+
+//Merging
+
+git merge branchname //merge the history from branchname into the current branch.
+
+//Merge conflicts may occur when you try to merge two files that have been edited at the same line. For example, in master branch I have a file foo, and in new_feature branch i have a file bar. The foo file says hi, damian. and the bar file says hi, cathy. When you try to merge these two files git will complain because it cannot be hi, damian and hi, cathy at the same time because they will overwrite each other. It's up to us to fix it by either accepting both changes and changing one of the files. When there is an error like this that git cannot auto merge, it will show you a message showing you where the error occurred. the '<<<< HEAD' means the line under this was from the recently commited file, which in this case is master. The '=====' seperates the files so you can distinguish one from the other. and '>>>>> new_feature' tells you that the code under this belongs to that file.
+//After you fix the conflict, you have to add it back to the stage area, and then commit it again!
+
+//Remote Repositories
+
+//When working in a team, everyone is going to be in different computers, so everyone is going to have a different local repository. In order for everyone to start working on the same project, they will have to clone it.
+
+git clone //create a new repository that is a clone of a remote repository.
+git clone ~/my_really_cool_project our_clone_project //If your cloning something on the same computer, you can just give it the location of of the git repository instead of an url which is typically used when cloning from other computers. You can also rename the file, since names arent important to git
+git clone URL //creates a new repository that is a copy of another one at the specific url
+git clone git://github.com/schacon/simplegit.git //Clones the project located at that specific url
+
+//This will copy the entire history of that project so you have it locally and it will give you a working directory of the main branch of that project so you can look at the code or start editing it
+//Note: You can merge history between two different copies of a repository much in the same way you would merge history between two branches in the same repository.
+
+git remote //list all remote repositories associated with the current repository.
+
+//After you create a remote repository, if you run the remote command, it will show that the clone has a remote of 'origin' which shows that its the original, but if you run remote on the origin, it will not show the clone!
+//To fix this you have to use the git remote add command.
+
+git remote add //add a new remote repository to the current repository.
+git remote add our_clone ~/our_clone_project //creates a remote in the origin, so now the origin will know that there exists a clone of it, and they can interact with one another
+
+//git remote add -  takes two arguments, the name of the remote and the path to it. Since were using the same computer its going to be a reltive path, but if you were cloning from someone elses computer you will have to use the URL of their project
+
+git remote add origin https://github.com/username/Hello-World.git
+# Creates a remote named "origin" pointing at your GitHub repository
+git push origin master
+# Sends your commits in the "master" branch to GitHub
+
+//Push: The act of sending changes to remote repositories in Git
+//Pull: The act of recieving changes from remote repositories in Git
+
+git push //push/send all your latest changes to a remote repository.
+git push new_feature //Tells git you want to push new_feature into the remote repository, but gives an error because the first argument passed to push has to be the name of the remote, and if you don't supply one it will by default think your talking about origin
+git push origin new_feature// origin(where you cloned from) new_feature(name of your branch you want to push) -- pushes your latest changes to origin
+git pull //pull the latest changes from a remote repository to your repository.
+
+//git pull works just like merge, but in this case its from a remote repository not another branch
+
+git pull origin new_feature //Specify what remote you want to pull from, and also what branch you want to get the history for
+
+//Note: If your working on a project with a partner, and you are both working on file1. Your partner commits his change but doesnt push it. You then commit your change and try to push it, it will give an error, because both of your guys were working on the same file. So to solve this you have to pull the other changes first, before you can push yours. In many cases this will give an error that git cannot resolve because you were both working on the same files, so you wil have to make the changes manually and then add, and commit it then push the new changes.
+//If you are in the origin, you cannot simply just enter 'git push'. It will give an error becasue by default git assumes you working from a remote repository and you are sending the changes to origin, but in this specific case, in order for it to work you will have to explicitly tell git that you want to push somewhere else: git push our_clone
+
+//Github
+//Cloning a GitHub repository to your own account is done through a process called forking
+//Git-Flow:
+//types of branches: feature, release, hotfix, support.
+//after git flow is installed, you can use it like this: git flow [branch_type] start [branch_name]
+
+git flow feature start new_feature
+
+//to finish the changes and close the branch: git flow [branch_type] finish [branch_name]
+
+git flow feature finish new_feature
+
+//http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/
+//http://nvie.com/posts/a-successful-git-branching-model/
+//Download: https://github.com/nvie/gitflow
