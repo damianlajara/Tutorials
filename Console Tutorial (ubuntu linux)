@@ -1,0 +1,335 @@
+Console Tutorial (ubuntu linux)
+
+//Navigating through the file system
+
+ls (list) //Lists the files in the current directory
+ls -l (long form) //Lists the files in a longer form
+
+Example: drwxrwxr-x 2 treehouse treehouse 4096 Jan 30 2013 documents
+d-directory; rwx-read,write,execute; the first three rwx is the user, the second is the group, and third is for everyone else (privelages)
+The first treehouse is the user, and the second is the group the user is associated to; The next column is the size
+
+ls -a (list all) //lists all files including dotfiles(hidden files)
+ls /etc (passing in parameters) //Passes in the 'etc' directory, so instead of showing the current directory it will list the contents of 'etc'
+ls -l /etc (combining options and parameters) lists the contents of the 'etc' directory with the long option 
+clear - clears the screen by moving everything up and putting the cursor at the beginning
+pwd (Print-working-directory) //Displays your current location in the filesystem; Also called your 'home directory';
+
+NOTE: ls options: 
+-1 : “One per line” – List one file/directory per line
+-A : Show the names of all files in the current working directory, except for . and ...
+-a : Show hidden files and directories, those that begin with a “.”. This includes “.” and “..“.
+-l : “Long” – Display files and directories in “long” format, which will display, among other things, the file’s name, owner name, group name,  the date and time it was last modified, and the file’s permissions.
+
+Example: /Users/Damian(mac) or /home/treehouse(linux)
+The '~'(tilda) symbol is just a shortcut for your home directory, so instead of displaying /home/name, you will often see '~'
+
+cd //brings us to the home directory automatically
+cd (change directory) //changes your current directory
+cd documents (relative path)
+cd /home/treehouse (absolute path)-Using '/' at the beginning, means your using the root path
+cd ~/documents -means your using your home directory as the root
+
+*Tip: Tab completion- when using 'cd' and entering text, you can press 'tab' halfway and it will auto complete it for you
+Example: If your in your home folder and you type: 'cd do' then enter tab it will auto complete it and write 'documents/' for you
+
+.. (dotdot) - goes up a directory
+Example: If were in /home/treehouse/documents and we type 'cd ..', we will then be in /home/treehouse
+You can also use it more than once by adding '/' to it
+Example: if were in /home/treehouse/documents and we type 'cd ../..' we will then be in '/' (our root directory)
+. (dot) - current directory 
+
+//Reading files
+
+less/more (pager-shows one page at a time) //a program that displays the content of a file; takes a parameter of the file you want to open
+Example: less hello.txt
+hit the 'space' button to jump to the end of the file
+to quit the less program, just enter 'q'
+you can also use the more program; example: moore hello.txt
+
+cat (prints the contents of one or more files to the console) concatenates different files written in parameters, hence 'cat'
+cat hello.txt documents/how_to_go_home.txt (prints both files onto the screen compared to less/more where it only shows one iteractively)
+
+//editing files
+
+nano-a simple text editor that works on the console; can also use emacs or vim
+just typing in nano will take you to the program
+Example: nano hello.txt
+the '^' symbole represents the control key, so if you want to quit, you can enter '^x'
+Note: if you write: nano demo.txt and 'demo.txt' doesnt exist, it will create it for you, so you can edit it
+
+//Moving and deleting files
+
+mv (move) //moves, or renames, a file or directory
+consider renaming as moving, your basically moving the contents of one file to another file with a different name
+mv takes two arguments. 1)from where we want to move it, 2) to where we want to move it
+mv hello.txt hi.txt (renames the file to hi.txt)
+mv hi.txt /documents (moves the hi.txt into the documents folder, since /documents isnt a name; it's a directory)
+mv hi.txt /documents/hello.txt (moves the hi.txt to the documents directory, and changes it's name to hello.txt)
+To do the opposite and undo the movement of the files, just type: mv documents/hi.txt .(moves it back to the current directory)
+You can also rename directories: mv documents docs (renames documents/ to docs/)
+
+cp (copy) //copies a file or directory (only copies files by default)
+cp hello.txt hi.txt
+creates a copy of hello.txt and calles it hi.txt and puts it in the same directory by default, since a specific place wasnt in the parameters
+very similar to mv, but it leaves the original alone and only works with the copy
+In order to create a copy of directories, you have to pass it the option 'r' which stands for recursive
+cp -r documents docs
+creates a copy (recursively creates a copy of the directory with all the files in it) and renames it to docs 
+
+rm (remove) //Removes a file or directory
+*CAREFUL* The rm is very powerful, and since there is no recycle bin, you cannot undo an 'rm' command. It's gone forever
+rm hi.txt //deletes hi.txt
+to remove a directory, you have to pass the '-r' flag, just like you have to do with the copy command
+rm -r docs //removes/deletes a folder called docs
+
+mkdir (make directory) //creates a new directory
+mkdir pictures //creates a directory called pictures
+to create a directory within a directory withing another directory (nested directories) you need to add the -p option, or it wont work since you have to create every directory one by one
+mkdir documents/notes/console/part1 //WILL NOT WORK since 'notes' doesnt exist so you cant make a folder withing an imaginary folder
+mkdir -p documents/notes/console/part1 // WILL WORK because the '-p' option was added
+
+//Creating users
+
+NOTE: 'sudo' runs command as the super user/Administrator
+
+run this patch so you wont get errors dealing with users: curl -L trhoue.se/patch01 | batch
+whoami //displays the user you are currently logged in as
+sudo adduser damian// creates a new user called damian
+
+note: the default group when creating a new user is a new group with the same name as the new user
+
+su (switch user) //allows you to login as a different user
+su damian
+exit //exits from the current session (or any switched user)
+
+//File permissions
+Who: U/G/O (user, group, others)
+Permissions: R/W/X (read, write, execute)
+U-rwx, G-rwx, O-rwx (for every who, there are permissions)
+chmod //changes the permissions (mode) of a file or directory
+chmod o+w hello.txt //adds the 'write' permission for 'other' for the file 'hello.txt'
+chmod u-r hello.txt //removes the 'read' permission for 'user' for the file 'hello.txt'
+chmod +x hello.txt // if you omit the who, it automaticalls defaults to everyone, so here I added the 'execute' permission for user, group and others
+
+Decimal notation // numerical representation using digits 0-9
+0  1  2  3  4  5  6  7  8  9
+10 11 12 13 14 15 16 17 18 19
+10: 1 ten and 0 ones
+
+Octal notation // numerical representation using the digits 0-7
+0  1  2  3  4  5  6  7
+10 11 12 13 14 15 16 17
+10: 1 eight and 0 ones
+
+The file permissions use the octal notation because theres only 8 possible combinations you can do
+representations: r: 4, w: 2, x: 1
+//if you add them together you get 4+2+1, which is 7, hence why 7 has r, w and x
+//if you only have the reading permission, then (r - -) is 4 + 0 + 0, which is 4
+//if you have the reading and executing permission, then (r - x) is 4 + 0 + 1, which is 5
+7: r w x
+6: r w -
+5: r - x
+4: r - -
+3: - w x
+2: - w -
+1: - - x
+0: - - -
+
+example: 
+7 4 2 
+rwx(7)//user 
+r--(4)//group 
+-w-(2)//other
+
+//if you sum everything up together, you get an absolute permission
+u:7, g:7, o:7// user, group and other each get r(reading), w(writing) and x(executing) (7) permissions
+
+chmod 777 hello.txt // adds the user, group and other each full access (r, w, x)
+
+//File ownership
+chown //changes the owner of a file or directory
+sudo chown mike hello.txt //changes the user to mike, so now the file belongs to mike
+sudo chown mike:mike hello.txt //changes the user and group to mike, so the file belongs to the user mike and the group mike
+!! (exclamation point, exclamation point[two bangs]) //represents the most recently run command
+//if you type: chwon mike hello.txt- you will get an error saying you do not have the priveledges for it, so instead of typing everything all over again
+//you can just type: sudo !!, and it will type: sudo chown mike hello.txt
+
+//processes
+
+top //a task manager that lets you view processes 
+//like the task manager in windows or activity monitor on mac osx
+press the '?' key for help //brings up the help screen to show you all the different kinds of things you can do
+press the 'q' key to exit
+ps //shows process statuses
+ps aux //view a full list of all processes (A-all processes for U-user X)
+//very useful if you want to find out an id of a program so you can, for example, kill it
+'|' (pipe) allows you to combine programs together
+grep //a tool that accepts input and filters results depending on that pattern
+ps aux | grep "top" //searches the processes for keywords containing "top" and only displays those
+
+
+//Pausing and Resuming
+
+//In some cases, you may be working on a text file, but then you have to do something else, like switch users or something. Instead of exiting and then doing your business and then reopening the file and typing everything over again, you can simply pause/suspend it. To do this, enter (ctrl-z)
+ctrl + z //stops or pauses the current process
+ctrl + c //terminates or exits a process (sends the TERM signal to the current process)
+fg (foreground) //Bring the most recently stopped program to the foreground
+
+//Jobs show a list of all processes in your current session (only belong to you, your own processes)
+jobs //prints the list of jobs in the session
+fg [job number] // takes an argument, of job id or number, for example 1:
+fg 1 //brings job 1 to the foreground instead of the most recent one
+
+example of jobs stopped with ctrl-z:
+[1]+ Stopped  nano demo.txt //the '+' means its the one fg will run by default
+[2]- Stopped  top //the # displays the job number or id, so you can call it and refer to it or even pass it as arguments to other programs such as fg
+
+top & //sends the program to the background immediately(has same effect as ctrl-z). It will show up in jobs as stopped 
+
+//Killing processes
+
+signal //a message sent to a process by the operating system
+TERM (terminate) //requests that the process terminates after any cleanup
+
+kill //stops a process by sending the TERM signal
+After looking up a process id, either using ps or top, you can kill it
+kill 1450
+kill -TERM (or in some Operating systems it can be -SIGTERM or -number like -15)
+kill -TERM 1456 //sends a normal terminate signal
+kill -KILL (or in some operating systems it can be -SIGKILL or -9) //LAST RESORT, ONLY USE IF -TERM DOESNT WORK
+//using kill -KILL actually shuts down the process completly, without even giving it a chance to cleanup, so even though the process stoppped, you will probably still see it in the console, just that now the prompt will be on top and everything you type will override the killed data
+kill -STOP 1463 //stops/pauses the current process, which is basically the same thing as ctrl-z
+
+//Environment Variables
+
+env (environment) //prints out all of the environment variables
+ps1 //variable for the command prompt - \u \w $ (\u is replaced with username, \w with working directory and $ is what you see on your prompt)
+echo //prints the arguments to the screen
+echo $HOME (environment variable //prints out your current home directory 
+
+//example: /home/damian
+Note: When expanding or viewing an environment variable you need to echo out the env variable with '$', but when setting it you don't
+
+PS1="\w >" will then display the command prompt with only the working directory and the '>'. //instead of 'damian ~ $', it will show only '~ >'
+PS1="This is the prompt..." instead of 'damian ~ $' it will show 'This is the prompt...'
+
+//bash runs automatically when you connect to your computer, so as soon as you open your terminal, its already runnning (parent)
+//so if we type 'bash' in the terminal, it creates a new instance of bash inside the already existing session of bash (child process)
+//for example, if our PS1 is 'Prompt..' and we type bash, it will create a new bash with the default properties, so our command prompt will be 'damian ~ $'
+//if we type 'exit', it will exit the CURRENT running bash, which will return us to our original bash with 'Prompt..'. If we exit that too, it will exit //us out completely, and we will have to create a new instance of bash again
+
+MESSAGE="hello world"
+echo $MESSAGE //will display 'hello world'
+
+//$Message is a local environment variable, so it's only avaiable to the current instance of bash, if we want to pass it down to a child process, we will have to export it
+
+export MESSAGE="hello world" //exports the env variable to child processes
+
+//so if we type bash and create a new instance, and we type 'echo $MESSAGE', it will now show 'hello world'
+
+echo $PATH //shows a list of directories seperated by colons ':'
+which //prints the location of a program
+which echo // will print out '/bin/echo'
+/bin/echo Hello //will echo out 'Hello' (Absolute paths)
+
+NOTE: since noone wants to type absolute paths all the time to write commands, they came up the $PATH variable
+Everytime you write a command, it will search for that command(executable) in the $PATH variable first, and if it finds it you will then be able to use it like this : 'echo Hello'.
+NOTE: if you tpe 'mkdir bin', and then 'ls', it will show you the new directory bin. If we create programs that we will want to run without using aboslute paths like 'echo' then we will have to add this new directory to our path variable
+
+export PATH=/home/damian/bin:$PATH //Since we want it to be top priority and we only want to modify it, we have to add '$PATH' at the end after a colon, since the original path is still in that variable, it will add our bin directory to the front of the string $PATH, instead of rewritting it
+
+//if we just export something, it doesnt really save it, so if we restart our computer or something happens, we will lose every change we made
+//Theres a file that will run everytime we start a bash where everything is stored, and this is where all these things are saved
+//on linux (ubintu) it is under the name .bashrc
+//if we type 'ls -la', you will see a folder called '.bashrc' (Depending on your OS and your shell/bash, it will a different directory)
+//nano .bashrc, and scroll all the way to the bottom, where you see the other exports, and just export the new env variable you want to save
+
+//Find and Grep
+
+find //locate files based on the file name, take an argument of where to start the search, and then the name of the file
+Remember that '.' means current directory!
+find . -name "how_to_go_home.txt" // You dont really need quotes, but if you use them you can search for files with multiple words
+find / -name "sudoers" //searches the whole system/computer from the root for a file called sudoers
+find documents bin -name "how_to_go_home.txt" //searches documents AND bin for the specific file
+
+grep (global regular expression print) //search inside a file for a specific pattern
+grep "is" hello.txt //searches file for the pattern 'is' and prints it out every time it finds a match
+grep -n //Prints the line number in the result
+grep -n is hello.txt
+grep -i //Perform a case insensitive search //the letter 'i' and 'I' will be the same
+grep -i this hello.txt
+grep -v //Show lines without the pattern
+grep -v e hello.txt //Prints out every line that does not contain the letter 'e'
+man grep //prints out the manual for grep, showing you all the flags and stuff you can use
+man find //prints out the manual for find, showing you all the flags and stuff you can use
+grep hello// since didnt pass a file as a paramter, ittl wait for us to input something, and then search in our input for the pattern
+
+Note: To exit the loop of the input for grep if you dont specify a file name, enter 'ctrl-D'
+
+//Pipes and redirection
+
+< FILE //use File as the standard input
+grep this < hello.txt //Instead of recieving input from the keyboard it will get it from the file specified
+
+> FILE //Redirect standard output to FILE -Same thing as the -o flag
+grep this hello.txt > hello_grep.txt //Reads the hello.txt file for the pattern this, and outputs the result to a newly created file called hello_grep.txt
+grep this > hello_grep.txt //Same thing as above, but this time the input is the keyboard and not the file hello.txt
+
+//Note: By default if you use '>' on a file, and then call '>' again to the same file, it will overwrite it; This is done by default, use '>>' to append
+//Tip: Use cat to output the results to the screen
+
+>>FILE //redirect output to append to file
+grep line hello.txt >> grep_output.txt//Instead of overwriting the newly created file grep_output with the results from grep, it will add the result to the whatever the file already contained
+
+2>FILE// Redirect the standard error stream to a file
+find / -name "sudoers" 2> error_log.txt //Outputs all of the errors to the newly created file error_log.txt instead of displaying it in the terminal
+/dev/null //A special file that will delete anything written into it
+
+//Instead of having to remove the files after creating them just for the errors like: rm error_log.txt, we can just write
+//find / -name "sudoers" 2> /dev/null //Will delete all of the error messages
+
+Command A | Command B //pipe the output of command A to the input of command B
+ps aux | grep bash //Will not print out the results of ps aux to the terminal since the standard out(output) is in the '|' pipe,
+//but instead it will send the result of ps aux as the input, to grep, and grep will then use that as the file to read. 
+//So it will filter the results based on that file and then output it into the terminal which is the standard out in this case
+sort //Sorts the lines of standard input and sends it to the standard output -By default will sort by plains tring comparison
+
+ps aux | grep bash | sort // ps aux outputs it results to grep which outputs its results to sort, which outputs it to the terminal
+ps aux | grep bash | sort > sorted_bash_procs.txt //Sends the sorted list to the newly created file sorted_bash_procs.txt
+
+//Building software from source
+
+sudo apt-get update //Updates all of the tools needed to download things and update/install from source
+sudo apt-get install build-essential //install things by file, in this case we want to install build-essential //downloads the make program
+//go to the download section of whatever program you want to download, and look for .zip or .tar.gz(better to use this one), and copy the link address
+curl //program used for making requests deom the internet
+curl -O //will save the source file to a file on your computer //Download the file at the URL
+curl -O http://www.sqlite.org/2014/sqlite-autoconf-3080300.tar.gz //downloads the tar.gz file you entered as a parameter
+//ls to see where it's located; Its better to create a directory for all of the source files
+//mkdir src //creates a src directory, then mv sqlite-autoconf-3080300.tar.gz src//move the .tar file to the src directory
+tar //tar un-tars a file, same thing as un-zipping a zip file.
+tar -xvf //-x:extract, -v:show output as it extracts, -f:points to the tar file we want to extract // Decompress the tar.gz file to the current directory
+./Program_Name //means we want to run the program Program_Name thats in our current directory
+./configure // //Run the configure script that comes with the source code. This creates a Makefile
+make //builds the program from all the source files //make sure make is in the directory as the current project a.k.a thing your installing 
+//running make creates an executable(exe) which we can use to install the program
+//in order to run an executable we need it to be in our path so we can just type: sqlite3 to install the program
+sudo make install //will not recompile everything since we already called make, but it moves the executables into our path(needs sudo), so it can install
+// This runs the install script from the Makefile and installs the program
+
+//Package Managers
+
+//Debian based linuxes use apt as their package manager and since ubuntu is a member of a family of linux distrubutions that are based on debian linuxes, the package manager for ubuntu linux is also apt
+//pacman, rpm and yum are some other package managers on other distributions of linuxes
+//mac even has it own packwage manager called homebrew
+
+sudo apt-get update //wil update our local databse of the available packages. Make sure you run this frequently, so all the packages can be up to date!
+apt-cache search //Allows us to search for available packagese based on a pattern
+apt-cache search git //searches for packages with the pattern 'git'
+sudo apt-get install git //installs the package git
+sudo apt-get update //Checks the system for newer versions of the program
+sudo apt-get upgrade //Upgrade all the packages installed to the latest version
+sudo apt-get remove //uninstalls a program
+sudo apt-get remove git //uninstalls git
+sudo apt-get autoremove //uninstalls all dependancies and extra packages that were installed because of git
